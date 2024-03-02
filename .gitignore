@@ -1,0 +1,4 @@
+SERVICE-ONE/node_modules
+SERVICE-TWO/node_modules
+SERVICE-ONE/package-lock.json
+SERVICE-TWO/package-lock.json

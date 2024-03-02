@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  service-one:
+    build:
+      context: ./SERVICE-ONE
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  service-two:
+    build:
+      context: ./SERVICE-TWO
+      dockerfile: Dockerfile
+    ports:
+      - "9000:6000"
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    environment:
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
