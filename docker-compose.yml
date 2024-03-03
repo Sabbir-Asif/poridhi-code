@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   service-one:
@@ -6,14 +6,14 @@ services:
       context: ./SERVICE-ONE
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3000:3000"  # Maps port 3000 of the host to port 3000 of the container
 
   service-two:
     build:
       context: ./SERVICE-TWO
       dockerfile: Dockerfile
     ports:
-      - "9000:6000"
+      - "9000:6000"  # Maps port 9000 of the host to port 6000 of the container
 
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -24,7 +24,31 @@ services:
       - "6831:6831/udp"
       - "6832:6832/udp"
       - "5778:5778"
-      - "16686:16686"
+      - "16686:16686"  # Exposed for accessing Jaeger UI
       - "14268:14268"
       - "14250:14250"
       - "9411:9411"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '4000:3000'  # Maps port 4000 of the host to port 3000 of the container
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090  # Maps port 9090 of the host to port 9090 of the container
+    volumes:
+      - ./prometheus:/etc/prometheus  # Mounts the prometheus directory to /etc/prometheus in the container
+      - prom_data:/prometheus
+
+volumes:
+  grafana-storage:  # Volume for Grafana to persist data
+  prom_data:        # Volume for Prometheus to persist data

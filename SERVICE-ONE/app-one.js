@@ -20,6 +20,7 @@ app.use((req, res, next) => {
   });
 });
 
+
 app.get("/getuser", async (req, res) => {
   const parentSpan = trace.getSpan(context.active());
 

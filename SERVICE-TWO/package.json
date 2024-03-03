@@ -31,6 +31,8 @@
     "@opentelemetry/tracing": "^0.24.0",
     "axios": "^1.6.7",
     "express": "^4.18.3",
+    "express-prom-bundle": "^7.0.0",
+    "prom-client": "^15.1.0",
     "redis": "^4.6.13"
   }
 }
